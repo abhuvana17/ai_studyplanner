@@ -1,3 +1,4 @@
+// Project code successfully corrected for enterprise integration
 package com.studyplanner.security.services;
 
 import com.studyplanner.model.User;

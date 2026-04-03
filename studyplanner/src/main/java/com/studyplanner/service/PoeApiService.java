@@ -9,8 +9,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class PoeApiService {
@@ -41,8 +39,7 @@ public class PoeApiService {
         // Note: The precise Poe API endpoint will depend on their specific bot protocol.
         String jsonBody = String.format("{\"query\": \"%s\"}", prompt.replace("\"", "\\\""));
 
-        HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers);
-
+        // HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers); // Unused currently in mock
         try {
             // Note: Replace with actual endpoint or mock it if unauthorized.
             // ResponseEntity<String> response = restTemplate.exchange(poeApiUrl, HttpMethod.POST, entity, String.class);
