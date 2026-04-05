@@ -12,7 +12,6 @@ WORKDIR /app/backend
 COPY studyplanner/pom.xml ./
 RUN mvn dependency:go-offline
 COPY studyplanner/src ./src
-# Copy the built frontend to Spring Boot's static resources
 COPY --from=frontend-build /app/frontend/dist ./src/main/resources/static
 RUN mvn clean package -DskipTests
 
