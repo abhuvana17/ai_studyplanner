@@ -5,6 +5,7 @@ services:
     runtime: docker
     repo: https://github.com/abhuvana17/ai_studyplanner
     context: .
+    dockerfilePath: ./Dockerfile
     plan: free
     healthCheckPath: /api/health
     envVars:
