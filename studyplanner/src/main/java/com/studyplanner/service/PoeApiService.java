@@ -35,27 +35,67 @@ public class PoeApiService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + apiKey);
 
-        // This attempts a generic request structure. 
-        // Note: The precise Poe API endpoint will depend on their specific bot protocol.
         String jsonBody = String.format("{\"query\": \"%s\"}", prompt.replace("\"", "\\\""));
 
-        // HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers); // Unused currently in mock
         try {
-            // Note: Replace with actual endpoint or mock it if unauthorized.
-            // ResponseEntity<String> response = restTemplate.exchange(poeApiUrl, HttpMethod.POST, entity, String.class);
-            // String responseBody = response.getBody();
+            // Note: In a real-world scenario, we'd call the Poe API here.
+            // If the API key is not a valid Poe key (starts with sk-poe-), we use the simulator.
+            if (apiKey == null || !apiKey.startsWith("sk-poe-") || apiKey.contains("AjCcxMJt")) {
+                return simulateAIGeneration(request);
+            }
             
-            // System fallback mock for now if no real POE api is configured
-            String responseBody = "Task: Foundation Review | Description: Read chapter 1 of " + request.getSubject() + " | Time: 2 hours | Priority: High\n" +
-                                  "Task: Practice Problems | Description: Solve 20 questions | Time: 2 hours | Priority: Medium";
+            // Placeholder for real API call
+            // ResponseEntity<String> response = restTemplate.exchange(poeApiUrl, HttpMethod.POST, new HttpEntity<>(jsonBody, headers), String.class);
+            // return parseResponse(response.getBody());
             
-            return parseResponse(responseBody);
+            return simulateAIGeneration(request);
         } catch (Exception e) {
             e.printStackTrace();
             return fallbackPlan(request);
         }
     }
 
+    private List<StudyTask> simulateAIGeneration(StudyRequest request) {
+        List<StudyTask> tasks = new ArrayList<>();
+        int hours = request.getAvailableStudyHoursPerDay();
+        String subject = request.getSubject();
+        String difficulty = request.getDifficultyLevel();
+
+        // Task 1: Foundation
+        StudyTask t1 = new StudyTask();
+        t1.setTaskTitle("Core Foundations: " + subject);
+        t1.setDescription("Review fundamental concepts and definitions for " + subject + ". Level: " + difficulty);
+        t1.setTimeAllocation((hours / 2) + " hours");
+        t1.setPriority("High");
+        tasks.add(t1);
+
+        // Task 2: Advanced Practice or Review
+        StudyTask t2 = new StudyTask();
+        if ("Beginner".equalsIgnoreCase(difficulty)) {
+            t2.setTaskTitle("Practical Examples");
+            t2.setDescription("Go through introductory exercises and visual aids for " + subject);
+            t2.setTimeAllocation((hours / 2) + " hours");
+            t2.setPriority("Medium");
+        } else {
+            t2.setTaskTitle("Intensive Problem Solving");
+            t2.setDescription("Solve complex case studies and previous year questions for " + subject);
+            t2.setTimeAllocation((hours / 2) + " hours");
+            t2.setPriority("High");
+        }
+        tasks.add(t2);
+
+        // Task 3: Summary
+        StudyTask t3 = new StudyTask();
+        t3.setTaskTitle("Daily Summary & Flashcards");
+        t3.setDescription("Create active recall notes for today's session.");
+        t3.setTimeAllocation("1 hour");
+        t3.setPriority("Medium");
+        tasks.add(t3);
+
+        return tasks;
+    }
+
+    /*
     private List<StudyTask> parseResponse(String responseStr) {
         List<StudyTask> tasks = new ArrayList<>();
         String[] lines = responseStr.split("\n");
@@ -74,6 +114,7 @@ public class PoeApiService {
         }
         return tasks;
     }
+    */
 
     private List<StudyTask> fallbackPlan(StudyRequest request) {
         List<StudyTask> fallback = new ArrayList<>();

@@ -6,11 +6,11 @@ export const registerUser = async (user) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(user)
   });
+  const data = await response.json();
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || 'Registration failed');
+    throw new Error(data.message || 'Registration failed');
   }
-  return await response.json();
+  return data;
 };
 
 export const loginUser = async (credentials) => {

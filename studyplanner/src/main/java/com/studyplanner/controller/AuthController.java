@@ -69,7 +69,9 @@ public class AuthController {
                 encoder.encode(signUpRequest.getPassword()));
 
         userRepository.save(user);
-
-        return ResponseEntity.ok("User registered successfully!");
+        
+        java.util.Map<String, String> response = new java.util.HashMap<>();
+        response.put("message", "User registered successfully!");
+        return ResponseEntity.ok(response);
     }
 }
