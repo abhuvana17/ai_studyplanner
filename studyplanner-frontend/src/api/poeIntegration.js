@@ -1,6 +1,4 @@
-const rawBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
-const API_BASE_URL = rawBaseUrl.startsWith('http') ? rawBaseUrl : `https://${rawBaseUrl}`;
-const API_URL = `${API_BASE_URL}/api/v1/studyplanner/generate`;
+const API_URL = "/api/v1/studyplanner/generate";
 
 export const generateSchedule = async (formData) => {
   try {
