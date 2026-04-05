@@ -1,10 +1,13 @@
 services:
+  # Monolithic AI Study Planner (Combined Backend + Frontend)
   - type: web
     name: ai-studyplanner
     runtime: docker
     repo: https://github.com/abhuvana17/ai_studyplanner
     context: .
+    dockerfilePath: ./Dockerfile
     plan: free
+    healthCheckPath: /api/health
     envVars:
       - key: PORT
         value: 8080
