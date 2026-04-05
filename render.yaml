@@ -1,11 +1,11 @@
 services:
-  # Monolithic AI Study Planner (Combined Backend + Frontend)
+  # Unified Monolithic AI Study Planner
   - type: web
-    name: ai-studyplanner
+    name: ai-studyplanner-unified
     runtime: docker
     repo: https://github.com/abhuvana17/ai_studyplanner
     context: .
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: Dockerfile
     plan: free
     healthCheckPath: /api/health
     envVars:
